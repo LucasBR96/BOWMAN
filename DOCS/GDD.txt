@@ -1,0 +1,68 @@
+UFF - UNIVERSIDADE FEDERAL FLUMINENSE
+O ARQUEIRO - GAME DESIGN DOCUMENT
+LUCAS FUZATO CIPRIANO
+MATRÍCULA: 319031058
+
+
+1 - Nome
+O Arqueiro
+
+2 - High Concept
+Esse Jogo é baseado no jogo "Bowman" que eu jogva muito quando era criança, nos tempos dos jogos em Flash. É um duelo entre dois arqueiros, que disparam flechas um contra outro, em turnos,até a morte. Eles ficam em lados opostos de um mesmo campo, e o sucesso de seus disparos dependem do vento, do angulo, da força, da balistica das flechas; e por fim se existe algum obstaculo entre eles. O que os jogo trás de diferente são os efeitos de sangue, vento e balística realistas.
+
+3 - Gameplay e Enredo.
+
+O Jogador pode escolher entre três modos de jogo.
+
+   A) História: Um jovem camponês no japão feudal inicia uma jornada para se tornar um arqueiro lendário. Em 6 fases, ele vai duelando com os arqueiros mais proeficientes do império.A IA vai se tornando cada vez mais avançada, e barreiras como vento e obstaculos fisicos se tornam cada vez mais proeminentes
+
+   B) Casual: Uma única partida entre o jogador e a IA. O jogador pode escolher entre 4 níveis de difulculdade, e as caracteristicas do ambiente ( Vento , Distância entre os arqueiros, e o tamanho do muro entre os arqueiros, se existir ) 
+
+   C) PVP: Um jogador contra o outro, por turnos. Assim como o modo anterior, é possível customizar o ambiente.
+
+O jogo funciona por turnos, com cada jogador clicando num ponto da tela e arrastando até outro. Isso vai determinar o angulo e a força de cada disparo. A flecha é lançada quando o jogador soltar o botão do mouse, e a câmera vai seguindo a flecha, até atingir o alvo, ou alguma outra coisa.
+
+A trajetória da flecha é interfirida pelo vento e pela chuva. Nenhum dos dois será constante, variando durante a partida de forma a equilibrar o jogo. O vento pode retardar ou acelerar a flecha, enquanto a chuva enfraquece o arco e prejudica a mira. 
+
+   Dois exemplos de customização do tempo:
+
+   A) Vento moderado, chuva leve, vento muda de direção a cada 30 segundos, parando por 10 antes de mudar.
+
+   B) Vento que varia constantemente entre leve e forte, de forma irregular.
+
+   C) Sem chuva nem vento, mas uma chuva forte pode começar em qualquer momento durante a partida.
+
+Finalmente, se a flecha atinge o arqueiro adversário, ocorre um efeito de sangue saindo do ferimento. A forma como o sangue sai depende de como a flecha atingiu. Para efeitos dramáticos, quando um jogador perder, o seu arqueiro irá morrer com um chafariz de sangue. Em termos práticos, cada flechada leva a perda de HP do arqueiro, com ele morrendo quando o HP atinge Zero. O Sprite terá seu corpo dividido em três partes: Pernas, Tronco e Cabeça, com umaflechada progressivamente causando mais dano ao atingir cada uma delas.
+
+4 - Gráficos.
+
+A primeira versão do jogo será bastante minimalista. Com os arqueiros sendo personagens de "stickman" tradicionais, um fundo azul claro representando o céu; uma linha demarcando o chão e a área do campo onde o arqueiro se encotra pintada de verde. Maior esforço será dado para os efeitos de sangue e vento.
+
+As imagens abaixo provem do jogo original, e dão uma boa ideia do que será descrito.
+
+********* IMAGEM 1 ********
+********* IMAGEM 2 ********
+********* IMAGEM 3 ********
+********* IMAGEM 4 ********
+
+Uma versão mais detalhada é proposta no item 7.
+
+5 - Audio
+
+Haverão sons de ambiente para vento e chuva. As flechas terão som próprio para lançamento e impacto, com esse último tendo sons distintos para cair no chão ou no corpo do adversário.Por fim haverá uma trilha sonora de música do japão feudal para ajudar na imerssão. Todos os sons serão obtidos de fontes do domínio público ou similares.
+
+6 - Desenvolvimento
+
+O jogo será desenvolvido Entre os meses de Novembro/2021 e Fevereiro/2022. Como o desenvolvimento desse jogo tem finalidades educativas para o(s) estudante(s) do projeto, ele não será desenvolvido com "Game Engines" sofisticadas como Unity e Unreal. Esse jogo será desenvolvido em Python, usando as bibliotecas PPlay e VisualStudio Code.
+
+7 - Ideias Adicionais
+
+Essas ideias são para deixar o jogo mais rico. Se for terminado em meados de janeiro, os conceitos propostos aqui poderão ser implementados como recursos extras para o projeto.
+
+Em termos de jogabilidade, um sistema de customização de flechas, que altera sua balistica e dano. Baseados em alguns precedentes históricos, aqui existem alguns exemplos.
+
+   A) Peso -> A flecha pode ser mais pesada ou leve, com a primeira sendo menos sucetível aa vento e causando mais dano, enquanto a segunda tem alcance maior e precisa de menos força. Alem disso, o centro de massa pode ser mais perto do cabo ou da ponta, o que muda a balśitica.
+
+   B) Ponta da flecha -> Durante boa parte da história diferentes tipos de flechas foram usadas para diferentes finalidades, e no jogo elas podem ter diferentes efeitos. Uma flecha de ponta de vidro se estilhaça ao acertar o alvo, causando um sangramento intenso que impede de o adversário de puxar sua flecha com muita força. Esse é só um exemplo, podem existir vários.
+
+Quanto aos graficos, que são, por enquanto, bastante simples, podem evoluir para algum pixel art aos moldes de clássicos como "Chrono Trigger" ou Novos Jogos como "Blasphemous". Usando como pano fundo cenas do Japão Feudal, e deixando os personagens mais detalhados.
