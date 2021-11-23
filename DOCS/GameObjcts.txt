@@ -1,0 +1,106 @@
+Esse 
+
+-- GAME OBJECTS
+
+a) Arrow
+   
+   Atributos:
+
+   a) Mass   -> Peso da Flecha, em quilogramas ( default .2 ).
+                Serve para calcular o dano com o impacto, a velocidade de lança
+                mento e o efeito da resistência do ar
+
+   b) Center -> Coordenadas do centro da flecha, em metros
+
+   c) Length -> Comprimento da flecha, metros ( default 1. )
+
+   d) Speed  -> Velocidade da flecha, um numpy.ndarray de dimensão 2
+                . A Inclinação da flecha é dada pela velocidade
+
+   e) Flying -> Booleano. Indica se a flecha está livre ou  presa em algum lugar
+                ( Chão ou arqueiro adversário )
+
+   Métodos:
+
+   a) Fly        -> Recalcula a posição da flecha com base na variação do tempo e
+                    da velocidade.
+
+                    Argumentos:
+
+                    dt -> variação do tempo ( segundos )
+
+   b) Accelerate -> Recalcula a velocidade da flecha.
+
+                    Argumentos:
+
+                    dt -> variação do tempo ( segundos )
+                    g  -> aceleração da gravidade
+                    k  -> constante de resistência do ar
+
+   c) GetEdges   -> Retorna as coordenadas da pontas da flecha.
+
+   d) Lock       -> Torna Arrow.Flying em False se ela estiver
+                    colidindo com alguma coisa.
+
+
+b) Bow 
+
+Atributos de instância
+
+power -> qual a força o arco impõe a flecha para cada metro
+         de corda puxada
+
+         Unidade:  float ( Newtons / Metro )
+         Defaullt: 100
+
+theta -> angulo que o arco faz com o eixo horizontal
+
+         Unidade: float ( Radianos )
+
+max_pull -> o maximo que a corda pode ser puxada
+            
+         Unidade: float ( Metro )
+         Default: 1.
+
+pull -> o quanto a corda está sendo puxada
+        
+        Unidade: float ( Metro )
+
+wet_debuff -> O quanto do power o arco perde se estiver chovendo
+        
+        Unidade : float ( Percentual )
+        Máximo  : 1.
+        Mínimo  : 0.
+        Default : .2
+
+Métodos de instância
+
+loose -> inicializa uma nova flecha, lança ela ao ar, 
+         e reseta o pull do arco para zero
+
+c) Bowman
+
+-- CLASSES UTILITARIAS
+
+d) Conv
+
+Essa classe serve para converter a coordenadas virtuais para as coordenadas
+reais e vice-versa. As cordeanadas virttuais sao aquelas de mundo de jogo
+( distâncias em metros, origem no canto inferior esquerdo, eixo y para cima)
+enquanto as reais são aquelas referentes a tela do pplay
+
+Atributos
+
+center -> origem do sistema virtual descrito pelo sistema real
+mat    -> matriz transformadora do sitema virtual para o real
+inv    -> inversa de mat. Inverter uma matriz é uma operação custosa
+          e como a matriz é a mesma então é melhor calcular na hora que
+          conv é inicializado. transforma do real para o virtual
+
+Metodos
+
+from_virt -> converter Coordenadas virtuais em reais
+to_virt   -> converter Coordenadas reais em virtuais
+
+e) Match
+f) Camera
