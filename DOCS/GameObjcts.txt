@@ -1,82 +1,85 @@
-Esse 
+Esse documento contém a descrição das classes que serão utilizadas nesse projeto. Estas existem em dois gruppos: Game objects, aquelas cujos os objetos interagem no mundo de jogo, e utilitarios, que servem de interface entre os game objects ou entre o mundo do jogo e o resto do código. Existe uma série de funções procedurais utilitárias que servem de auxílio para a computação do jogo mas não serão descritas nesse documento.
+
+Todos os atributos terão seus getters e setters, e estes serão omitidos para evitar redundância. Os atributos serão acompanhados pelos seus tipos e os seus valores default, se estes existirem. Cada método tera seus argumentos descritos, também acompanhado pelo tipo, com a exceção dos métodos que apenas utilizam os atributos do objeto.
+
 
 -- GAME OBJECTS
+
+a) ArrowProfile
+
+   Um named tuple que indica o tipo de flecha que pode ser usado. A relação com Arrow é de one-to-many
+
+   Atributos:
+
+   a) Mass   -> Peso da Flecha, em quilogramas. Serve para calcular o dano com o impacto, a velocidade de lançamento e o efeito da resistência do ar.
+      Unidade: float ( quilogramas )
+      Default: .2
+
+   b) Length -> Comprimento da flecha.
+      Unidade: float ( Metros )
+      Default: .8
 
 a) Arrow
    
    Atributos:
 
-   a) Mass   -> Peso da Flecha, em quilogramas ( default .2 ).
-                Serve para calcular o dano com o impacto, a velocidade de lança
-                mento e o efeito da resistência do ar
+   a) Profile -> ArrowProfile da flecha
 
-   b) Center -> Coordenadas do centro da flecha, em metros
+   b) Center -> Coordenadas do centro da flecha.
+      Unidade: numpy.ndarray([float])
 
-   c) Length -> Comprimento da flecha, metros ( default 1. )
+   c) Speed  -> Velocidade da flecha. Também determina a sua inclinação. 
+      Unidade: numpy.ndarray([float])
 
-   d) Speed  -> Velocidade da flecha, um numpy.ndarray de dimensão 2
-                . A Inclinação da flecha é dada pela velocidade
-
-   e) Flying -> Booleano. Indica se a flecha está livre ou  presa em algum lugar
-                ( Chão ou arqueiro adversário )
+   d) Flying -> Indica se a flecha está livre ou presa em algum lugar ( Chão ou arqueiro adversário )
+      Unidade: Booleano
 
    Métodos:
 
-   a) Fly        -> Recalcula a posição da flecha com base na variação do tempo e
-                    da velocidade.
-
-                    Argumentos:
-
-                    dt -> variação do tempo ( segundos )
+   a) Fly        -> Recalcula a posição da flecha
+      Argumentos:
+      dt -> variação do tempo ( segundos )
 
    b) Accelerate -> Recalcula a velocidade da flecha.
-
-                    Argumentos:
-
-                    dt -> variação do tempo ( segundos )
-                    g  -> aceleração da gravidade
-                    k  -> constante de resistência do ar
+      Argumentos:
+      dt -> variação do tempo ( segundos )
+      g  -> aceleração da gravidade
+      k  -> constante de resistência do ar
 
    c) GetEdges   -> Retorna as coordenadas da pontas da flecha.
 
-   d) Lock       -> Torna Arrow.Flying em False se ela estiver
-                    colidindo com alguma coisa.
+   d) Lock       -> Torna Arrow.Flying em False se ela estiver colidindo com alguma coisa.
 
 
 b) Bow 
 
-Atributos de instância
+   Atributos:
 
-power -> qual a força o arco impõe a flecha para cada metro
-         de corda puxada
+   a) Power -> Qual a força o arco impõe a flecha para cada metro de corda puxada
+      Unidade:  float ( Newtons / Metro )
+      Defaullt: 100
 
-         Unidade:  float ( Newtons / Metro )
-         Defaullt: 100
+   b) Theta -> Ângulo que o arco faz com o eixo horizontal
+      Unidade: float ( Radianos )
 
-theta -> angulo que o arco faz com o eixo horizontal
+   c) MaxPull -> o maximo que a corda pode ser puxada
+      Unidade: float ( Metro )
+      Default: 1.
 
-         Unidade: float ( Radianos )
+   d) Pull -> o quanto a corda está sendo puxada        
+      Unidade: float ( Metro )
 
-max_pull -> o maximo que a corda pode ser puxada
-            
-         Unidade: float ( Metro )
-         Default: 1.
+   e) WetDebuff -> O quanto do power o arco perde se estiver chovendo
+      Unidade : float ( Percentual )
+      Máximo  : 1.
+      Mínimo  : 0.
+      Default : .2
 
-pull -> o quanto a corda está sendo puxada
-        
-        Unidade: float ( Metro )
+   Métodos:
 
-wet_debuff -> O quanto do power o arco perde se estiver chovendo
-        
-        Unidade : float ( Percentual )
-        Máximo  : 1.
-        Mínimo  : 0.
-        Default : .2
-
-Métodos de instância
-
-loose -> inicializa uma nova flecha, lança ela ao ar, 
-         e reseta o pull do arco para zero
+   a) Loose -> inicializa uma nova flecha; lança ela ao ar; e reseta o pull do arco para zero.
+      Argumentos:
+      ArrType -> ArrowProfile da flecha a ser lançada
 
 c) Bowman
 
@@ -84,23 +87,26 @@ c) Bowman
 
 d) Conv
 
-Essa classe serve para converter a coordenadas virtuais para as coordenadas
-reais e vice-versa. As cordeanadas virttuais sao aquelas de mundo de jogo
-( distâncias em metros, origem no canto inferior esquerdo, eixo y para cima)
-enquanto as reais são aquelas referentes a tela do pplay
+Essa classe serve para converter a coordenadas virtuais para as coordenadas reais e vice-versa. As cordeanadas virttuais sao aquelas de mundo de jogo ( distâncias em metros, origem no canto inferior esquerdo, eixo y para cima), enquanto as reais são aquelas referentes a tela do pplay
 
-Atributos
+   Atributos:
 
-center -> origem do sistema virtual descrito pelo sistema real
-mat    -> matriz transformadora do sitema virtual para o real
-inv    -> inversa de mat. Inverter uma matriz é uma operação custosa
-          e como a matriz é a mesma então é melhor calcular na hora que
-          conv é inicializado. transforma do real para o virtual
+   a) Center -> Origem do sistema virtual descrito pelo sistema real
 
-Metodos
+   b) Mat    -> Matriz transformadora do sitema virtual para o real
 
-from_virt -> converter Coordenadas virtuais em reais
-to_virt   -> converter Coordenadas reais em virtuais
+   c) Inv    -> Inversa de Mat. Inverter uma matriz é uma operação custosa e como a matriz é a mesma então é melhor calcular na hora que Conv é inicializado. transforma do real para o virtual
+   
+   Obs: Cada uma desses atributos tem a mesma unidade: numpy.ndarray de floats
 
+   Métodos:
+
+   a) FromVirt -> converter Coordenadas virtuais em reais
+      Argumentos:
+      VirtualX - > posição virtual x.
+      VirtualT - > posição virtual y.
+
+   b) ToVirt   -> converter Coordenadas reais em virtuais
+   
 e) Match
 f) Camera
