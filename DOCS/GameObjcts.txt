@@ -104,9 +104,12 @@ Essa classe serve para converter a coordenadas virtuais para as coordenadas reai
    a) FromVirt -> converter Coordenadas virtuais em reais
       Argumentos:
       VirtualX - > posição virtual x.
-      VirtualT - > posição virtual y.
+      VirtualY - > posição virtual y.
 
    b) ToVirt   -> converter Coordenadas reais em virtuais
+      Argumentos:
+      RealX - > posição real x.
+      RealY - > posição real y.
    
 e) Match
 f) Camera

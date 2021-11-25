@@ -1,0 +1,7 @@
+#meta files
+*.swp
+
+#rich text editor
+*.odt
+*.odf
+*.pdf

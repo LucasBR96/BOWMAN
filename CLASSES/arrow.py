@@ -1,56 +1,45 @@
 import numpy
 import functools
+from collections import namedtuple
+
+ArrowProfile = namedtuple( "ArrowProfile" , [ "Mass" , "Lenght" ] ) 
 
 class Arrow:
 
-    '''
-    Essa flecha é considerada "simples" no sentido que é fisicamente tratada como um ponto
-    material. Suas coordenadas são dadas pelo centro da flecha; o cabo é sempre alinhado com a direção 
-    do movimento, etc. Não há efeito de alavanca causado pelo vento ou distribuição de massa da flecha.
-    Isso torna a balística menos realista, porém melhor computável
-    '''
+    def __init__( self , Profile , Center , Speed ):
 
-    def __init__( self , mass , center , L , speed ):
+        self.Profile = Profile 
+        self.Speed   = Speed
+        self.Center  = Center
+        self.Flying  = True
 
-        self.mass = mass
-        self.speed = speed # numpy.ndarray com 2 dimensões
-        self.L = L # comprimento da flecha
-        self.center = center
-
-        self.flying = True
-        self.acc    = numpy.zeros( 2 )
-
-    def get_angle( self ):
-
-        vx = self.speed[ 0 ]
-        vy = self.speed[ 1 ]
-
-        return numpy.arctan( vy/vx )
-    
-    def move( self , dt , **kwargs ):
-
-        self.acc = self.update_acc( kwargs )
-        self.speed = self.speed + self.acc*dt
-        self.center = self.center + self.speed*dt
-
-    def update_acc( self , **kwargs ):
-
-class complexArrow:
-
-    def __init__( self, initial_speed, theta, length, s_mass , h_mass, base_pos, L ):
-
-        self.speed = initial_speed
-        self.theta = theta
-        self.s_mass = s_mass
-        self.h_mass = h_mass
-        self.base_pos = base_pos
-        self.L = L
-        self.acc = numpy.zeros( 2 )
-    
-    @functools.lru_cache()
-    def get_grav_center( self ):
-
-        return ( ( self.L/2)*self.s_mass + self.L*self.h_mass )/( self.s_mass + self.h_mass )
-
-
+    def Fly( self , dt ):
         
+        if not self.Flying: return
+        self.Center += self.Speed*dt
+    
+    def Accelerate( self , dt , g = 9.81 , k =.01 ):
+        
+        #sem velocidade do vento por enquanto
+
+        if not self.Flying: return
+        dy = -g*dt
+
+        vx = self.Speed[ 0 ]
+        dx = ( -k*( vx**2 )*dt )/self.Profile.Mass
+
+        self.Speed += numpy.array([ dx , dy ])
+
+    def GetEdges( self ):
+        
+        vx , vy = self.Speed
+        mod = vx**2 + vy**2
+        u = self.Speed/numpy.sqrt( mod )
+
+        L = self.Profile.Lenght/2
+        pos1 = self.Center + u*L
+        pos2 = self.Center - u*L
+        return pos1 , pos2
+    
+    def Lock( self ):
+        self.Flying = not self.Flying
