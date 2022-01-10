@@ -83,6 +83,16 @@ b) Bow
 
 c) Bowman
 
+   O arqueiro propriamente descrito
+
+   Atributos:
+
+   a) HP -> Health points. O quanto de energia ele tem antes de morrer
+
+   b) Inventory -> Um inventário que diz quais ArrowProfile ele tem a disposição
+
+   c) Stamina -> quanta força ele tem para puxar o arco, quanto mais a corda tiver puxada, mais  
+
 -- CLASSES UTILITARIAS
 
 d) Conv
@@ -112,4 +122,79 @@ Essa classe serve para converter a coordenadas virtuais para as coordenadas reai
       RealY - > posição real y.
    
 e) Match
+
+É a classe que serve de interface entre os game objects ( Flechas, voandos ou caidas; Arqueiros ) ambiente ( chuva e vento ) e a camera. Além disso contém um conversor de coordenadas. Essa classe é mais um NameSpace para algumas funções e variáveis globais, sem precisar instaciar objetos, por isso seus métodos e atributos são de classe.
+
+   Atributos:
+
+   a) Lenght -> Tamanho do Campo
+      Unidade: float ( metros )
+      Default: 400.
+
+   b) BowManDist  -> Distância entre os arqueiros
+      Unidade: float ( metros )
+      Default: 250.
+
+   c) BowManLeft  -> Arqueiro a esquerda do campo
+      Unidade: Objeto Bowman
+
+   d) BowManRight -> Arqueiro a direita do campo
+      Unidade: Objeto Bowman
+
+   e) BowManTurn  -> Arqueiro com a vez de atirar
+      Unidade: booleano
+      Default: True ( Vez do BowmanLeft )
+
+   f) WindSpeed   -> Velocidade do Vento
+      Unidade: float ( metros/segundo )
+      Default: 0.
+
+   g) WindDirec   -> Direção do vento
+      Unidade: booleano
+      Default: True ( Da direita Para esquerda )
+
+   h) Raining -> Se está chovendo
+      Unidade: booleano
+      Default: False
+
+   i) Camera  -> camera filmando a partida
+      Unidade: objeto Camera
+
+   j) Conv    -> conversor de coordenadas
+      Unidade: objeto Conv
+
+   k) CurrentArrow -> flecha que está voando
+      Unidade: objeto Arrow
+
+   l) FallenArrow -> flechas que caíram
+      Unidade: lista de objetos Arrow
+
+
+   Métodos:
+
+   a) SwitchTurn -> Muda a vez dos arqueiros e foca a camera nele
+
+   b) FocusArrow -> Foca a camera na flecha em voo. E bloqueia ambos os arqueiros de atitrar
+
+   c) FilterObjects -> Filtra os objetos capturados pela camera, com suas coordenadas convertidas para o pplay.
+
+
 f) Camera
+
+Como o campo do jogo não cabe na tela do PPlay, é necessário uma camera para focar em partes específicas da ação e filtrar os objetos que serão redenrizados.
+
+   Atributos:
+
+   a) Center -> Posição da camera no sistema de coordenada do duelo dos arqueiros.
+      Unidade: numpy.ndarray de floats ( metros )
+
+   b) Width  -> Largura da porção da partida capturada pela camera.
+      Unidade: float ( Metros )
+
+   c) Height -> Altura dessa porção.
+      Unidade: float ( Metros )
+
+
+Métodos:
+
+   a) InCamera -> Retorna um booleano se um game object está em camera.
