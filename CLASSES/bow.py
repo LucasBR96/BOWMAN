@@ -9,11 +9,11 @@ class Bow:
 
     def __init__( self , Power = 100 , MaxPull = MAX_PULL, WetDebuff = WET_DEBUFF ):
 
-        self.Power = Power
-        self.Theta = 0
-        self.Pull  = 0
-        self.MaxPull = MaxPull
-        self.WetDebuff = WetDebuff
+        self.Power     : float = Power
+        self.Theta     : float = 0
+        self.Pull      : float = 0
+        self.MaxPull   : float = MaxPull
+        self.WetDebuff : float = WetDebuff
         pass
 
     def getReleaseVelocity( self , ArrType ):
@@ -28,7 +28,7 @@ class Bow:
 
         return numpy.sqrt( Velocity )
 
-    def Loose( self , ArrType , Center ):
+    def Loose( self , ArrType , Center ) -> Arrow:
 
         Velocity = self.getReleaseVelocity( ArrType )
 
@@ -42,6 +42,6 @@ class Bow:
     def setTheta( self , Theta ):
         self.Theta = numpy.clip( Theta , MIN_THETA , MAX_THETA)
 
-    def setPull( self , Pull ):
+    def setPull( self , Pull : float ):
         self.Pull = numpy.clip( Pull , 0 , MAX_PULL )
 
