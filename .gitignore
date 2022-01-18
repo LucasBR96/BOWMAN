@@ -1,5 +1,6 @@
 #meta files
 *.swp
+*.pyc
 
 #rich text editor
 *.odt
