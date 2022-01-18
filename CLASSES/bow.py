@@ -2,8 +2,8 @@ import numpy
 import functools
 from collections import namedtuple
 
-from arrow import Arrow, ArrowProfile
-from constantes import *
+from CLASSES.arrow import Arrow, ArrowProfile
+from CLASSES.constantes import *
 
 class Bow:
 

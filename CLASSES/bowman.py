@@ -2,9 +2,9 @@ import numpy
 import functools
 from collections import namedtuple
 
-from arrow import Arrow, ArrowProfile
-from bow import Bow
-from constantes import *
+from CLASSES.arrow import Arrow, ArrowProfile
+from CLASSES.bow import Bow
+from CLASSES.constantes import *
 
 class Bowman:
 
