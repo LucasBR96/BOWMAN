@@ -18,4 +18,10 @@ class Play:
 
     @staticmethod
     def manage_inputs(  ):
-        pass
+        
+        kb = pygame.key
+        if kb.get_pressed()[ K_ESCAPE ]:
+            Play.running = False
+            Play.next_screen = MENU
+        
+        

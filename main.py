@@ -40,6 +40,9 @@ def swap_screen():
     
     elif screen.next_screen == OPT:
         screen = Options
+
+    elif screen.next_screen == MENU:
+        screen = Menu
     
     screen.start()
 
