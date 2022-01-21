@@ -44,13 +44,13 @@ def swap_screen():
     elif screen.next_screen == MENU:
         screen = Menu
     
-    screen.start()
+    screen.start( window )
 
 
 def main():
 
     init_globals()
-    screen.start()
+    screen.start( window )
     while True:
 
         window.fill( WHITE )

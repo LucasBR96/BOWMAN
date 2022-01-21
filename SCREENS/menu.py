@@ -40,7 +40,7 @@ def handle_mouse_press():
 class Menu:
 
     @staticmethod
-    def start():
+    def start( window ):
         
         opt_types = [ VS_PLAY , VS_COMP , OPT , EXIT ]
 

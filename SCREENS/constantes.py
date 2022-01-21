@@ -24,12 +24,12 @@ BUTTON_THICKNESS = 3
 FONT_TYPE = 'lato'
 FONT_SIZE = 18
 
-#----------------------------------------------------------
-# Conversao de distancias
-
 #-----------------------------------------------------------
 # Arrow drag
 DRAG_LINE_THICKNESS = 3 
 DRAG_FONT_SIZE      = 12
 DRAG_TEXT_X         = 0
 DRAG_TEXT_Y         = 3
+
+MAX_DRAG_D = 200
+
