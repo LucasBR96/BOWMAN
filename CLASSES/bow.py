@@ -7,7 +7,7 @@ from constantes import *
 
 class Bow:
 
-    def __init__( self , Power = 100 , MaxPull = MAX_PULL, WetDebuff = WET_DEBUFF ):
+    def __init__( self , Power = 300 , MaxPull = MAX_PULL, WetDebuff = WET_DEBUFF ):
 
         self.Power     : float = Power
         self.Theta     : float = 0
@@ -21,7 +21,7 @@ class Bow:
         d = self.WetDebuff
         k = self.Power
         x = self.Pull
-        Energy = d*( k*( x**2 ) )
+        Energy = ( 1 - d )*( k*( x**2 ) )
 
         # m = ArrType.Mass
         m = BASE_MASS
@@ -41,8 +41,8 @@ class Bow:
         return Arrow(  Center , Speed  )
 
     def setTheta( self , Theta ):
-        self.Theta = numpy.clip( Theta , MIN_THETA , MAX_THETA)
+        self.Theta = Theta
 
     def setPull( self , Pull : float ):
-        self.Pull = numpy.clip( Pull , 0 , MAX_PULL )
+        self.Pull = Pull
 

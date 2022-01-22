@@ -10,7 +10,7 @@ BasicArrow = ArrowProfile( Mass = BASE_MASS , Lenght = BASE_LEN )
 
 class Arrow:
 
-    def __init__( self , Profile , Center , Speed ):
+    def __init__( self , Center , Speed, Profile = BasicArrow  ):
 
         self.Profile = Profile 
         self.Speed   = Speed
@@ -21,6 +21,8 @@ class Arrow:
         
         if not self.Flying: return
         self.Center += self.Speed*dt
+
+        print( self.Center )
     
     def Accelerate( self , dt , g = 9.81 , k =.01 ):
         

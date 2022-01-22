@@ -58,6 +58,8 @@ def main():
         if screen.running:
             screen.render_objects( window , font = Font )
             screen.manage_inputs()
+            if screen == Play:
+                screen.update()
         else:
             swap_screen()
 

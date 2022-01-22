@@ -8,16 +8,17 @@ from constantes import *
 
 class Bowman:
 
-    def __init__( self , Inventory, Bow : Bow, Position = DEFAULT_X ):
-
+    # def __init__( self , Inventory, Bow : Bow, Position = DEFAULT_X ):
+    def __init__( self , Position = numpy.array( [ VIRTUAL_DEFAULT_X , 0 ] ) ):
         self.HP = MAX_HEALTH
         self.Stamina = MAX_STAMINA
 
-        self.Bow         = Bow
-        self.Inventory   = Inventory
-        self.loadedArrow = list( Inventory.keys() )[ 0 ]
+        # self.Bow         = Bow
+        # self.Inventory   = Inventory
+        # self.loadedArrow = list( Inventory.keys() )[ 0 ]
 
         self.Position = Position
+        self.Bow = Bow()
     
     def Draw( self , Pull , Theta ):
 
@@ -49,11 +50,11 @@ class Bowman:
     
     def Loose( self ) -> Arrow:
 
-        ArrowType = self.loadedArrow
-        Position  = numpy.array([ self.Position , BOW_HEIGHT ] )
-        newArrow  = self.Bow.Loose( ArrowType , Position )
+        # ArrowType = self.loadedArrow
+        Position  = numpy.array([ self.Position[0] , VIRTUAL_BOW_HEIGHT ] )
+        newArrow  = self.Bow.Loose(  Position )
 
-        self.Inventory[ ArrowType ] -= 1
+        # self.Inventory[ ArrowType ] -= 1
         self.Bow.setPull( 0 )
 
         return newArrow

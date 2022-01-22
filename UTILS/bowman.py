@@ -6,8 +6,11 @@ import pygame
 from pygame.locals import *
 from constantes import *
 
-ms = pygame.mouse
+from CLASSES.bowman import Bowman
 
+# from UTILS.arrlst import arrlst:
+
+ms = pygame.mouse
 class BowmanSprite:
 
     def __init__( self , window ,left_side = True ):
@@ -17,14 +20,20 @@ class BowmanSprite:
 
         self.position = SCREEN_SIZE[ 0 ]//2
 
-        self.drag = None
-        self.conv = None
+        self.drag     = None
+        self.conv     = None
+        self.arrowlst = None
+
+        self.bowman = Bowman()
     
     def set_conv( self, conv ):
         self.conv = conv
-        
+
     def set_drag( self , drag ):
         self.drag = drag
+
+    def set_arrowlst( self , arrowlst ):
+        self.arrowlst = arrowlst
 
     def draw( self ):
 
@@ -35,7 +44,7 @@ class BowmanSprite:
 
         box = sprite.get_rect()
         sprite_x = self.position - box.width/2
-        sprite_y = SCREEN_SIZE[ 1 ] - box.height - 10
+        sprite_y = SCREEN_SIZE[ 1 ] - box.height - FLOOR_HEIGHT
 
         self.window.blit( sprite , ( sprite_x , sprite_y ) )
 
@@ -68,7 +77,7 @@ class BowmanSprite:
 
     def get_correct_sprite( self ):
 
-        if ( self.drag.last_click is None ):
+        if self.drag.last_click is None:
             return 'assets/bowman_sprites/Resting.png'
 
         _ , _ , d , _ = self.drag.get_drag_info()
@@ -81,11 +90,21 @@ class BowmanSprite:
     def set_bow_params( self ):
 
         _ , _ , d , theta = self.drag.get_drag_info()
-        self.bow.setTheta( theta )
-        self.bow.setPull( d )
+        self.bowman.Draw( d/100 , theta )
     
+    def loose( self ):
 
+        Arr = self.bowman.Loose()
+        self.arrowlst.add_arrow( Arr )
+    
+    def update( self ):
+        # pass
+        if self.drag.released():
+            self.loose()
+        elif self.drag.holding:
+            self.set_bow_params()
 
+    
 # class Bowman:
 
 #     def __init__( self , Position ):

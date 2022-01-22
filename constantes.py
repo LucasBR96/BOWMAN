@@ -20,8 +20,9 @@ MAX_HEALTH  = 100
 MAX_STAMINA = 100
 STAMINA_DECAY = 5/MAX_STAMINA
 
-DEFAULT_X   = 0
-BOW_HEIGHT  = 1.7
+VIRTUAL_DEFAULT_X   = 75
+VIRTUAL_BOW_HEIGHT  = 1.5
+VIRTUAL_BOWMAN_HEIGHT  = 1.7
 
 #Field ----------------------------------------------------
 FIELD_LEN = 400
@@ -32,7 +33,8 @@ MAX_WSP      = 100
 #----------------------------------------------------------
 # Conversao de distancias
 R = 54 #pixels por metro
-CENTER = numpy.array( [ -66*54 , 800 ] )
+FLOOR_HEIGHT = 10
+CENTER = numpy.array( [ -66*R , 800 - FLOOR_HEIGHT ] )
 MAT = numpy.array( [ [ R , 0 ] , [ 0 , -R ] ] )
 
 #--------------------------------------------------------

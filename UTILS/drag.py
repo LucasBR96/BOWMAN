@@ -12,6 +12,7 @@ class mouse_drag:
 
         self.window = window
         self.last_click = None
+        self.holding    = False
         self.font = pygame.font.SysFont( FONT_TYPE , DRAG_FONT_SIZE , bold = True )
     
     def update_drag( self , p1 , p2 , d ):
@@ -64,8 +65,14 @@ class mouse_drag:
 
         if ms.get_pressed()[ 0 ] and self.last_click is None:
             self.last_click = ms.get_pos()
-        elif not( ms.get_pressed()[ 0 ] ) and not( self.last_click is None ):
+            self.holding = True
+        elif not( ms.get_pressed()[ 0 ] ) and self.holding:
+            self.holding = False
+        elif not( self.holding ):
             self.last_click = None
+
+    def released( self ):
+        return not ( self.last_click is None ) and not self.holding
 
     def draw( self ):
 
