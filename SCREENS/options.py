@@ -1,4 +1,4 @@
-from SCREENS.constantes import *
+from constantes import *
 
 import pygame
 from pygame.locals import *

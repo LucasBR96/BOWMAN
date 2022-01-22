@@ -2,7 +2,7 @@ import numpy
 import functools
 from collections import namedtuple
 
-from CLASSES.constantes import *
+from constantes import *
 
 ArrowProfile = namedtuple( "ArrowProfile" , [ "Mass" , "Lenght" ] ) 
 

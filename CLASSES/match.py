@@ -1,8 +1,8 @@
 from CLASSES.bow import Bow
 from CLASSES.bowman import Bowman
-from CLASSES.conv import Conv
+from UTILS.conv import Conv
 from CLASSES.arrow import Arrow
-from CLASSES.constantes import *
+from constantes import *
 
 import numpy as np
 

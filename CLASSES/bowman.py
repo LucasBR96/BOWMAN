@@ -4,7 +4,7 @@ from collections import namedtuple
 
 from CLASSES.arrow import Arrow, ArrowProfile
 from CLASSES.bow import Bow
-from CLASSES.constantes import *
+from constantes import *
 
 class Bowman:
 

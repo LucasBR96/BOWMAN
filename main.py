@@ -2,13 +2,13 @@
 from CLASSES.arrow import *
 from CLASSES.bow import *
 from CLASSES.bowman import *
-from CLASSES.constantes import *
-from CLASSES.conv import *
+from UTILS.conv import *
 
-from SCREENS.constantes import *
 from SCREENS.menu import Menu
 from SCREENS.play import Play
 from SCREENS.options import Options
+
+from constantes import *
 
 import numpy as np
 

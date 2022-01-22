@@ -3,7 +3,7 @@ import functools
 from collections import namedtuple
 
 from CLASSES.arrow import Arrow, ArrowProfile
-from CLASSES.constantes import *
+from constantes import *
 
 class Bow:
 
@@ -16,28 +16,29 @@ class Bow:
         self.WetDebuff : float = WetDebuff
         pass
 
-    def getReleaseVelocity( self , ArrType ):
+    def getReleaseVelocity( self ):
 
         d = self.WetDebuff
         k = self.Power
         x = self.Pull
         Energy = d*( k*( x**2 ) )
 
-        m = ArrType.Mass
+        # m = ArrType.Mass
+        m = BASE_MASS
         Velocity = Energy/m
 
         return numpy.sqrt( Velocity )
 
-    def Loose( self , ArrType , Center ) -> Arrow:
+    def Loose( self , Center ) -> Arrow:
 
-        Velocity = self.getReleaseVelocity( ArrType )
+        Velocity = self.getReleaseVelocity( )
 
         Theta    = self.Theta
         cosTheta = numpy.cos( Theta )
         sinTheta = numpy.sin( Theta )
 
         Speed = numpy.array( [ cosTheta , sinTheta ] )*Velocity
-        return Arrow( ArrType , Center , Speed  )
+        return Arrow(  Center , Speed  )
 
     def setTheta( self , Theta ):
         self.Theta = numpy.clip( Theta , MIN_THETA , MAX_THETA)

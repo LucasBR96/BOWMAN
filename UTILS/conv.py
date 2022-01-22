@@ -1,14 +1,10 @@
 import numpy
 from numpy import linalg
-
-import functools
-from collections import namedtuple
-
-from CLASSES.constantes import *
+from constantes import *
 
 class Conv:
 
-    def __init__( self , Center , Mat ):
+    def __init__( self , Center = CENTER , Mat = MAT ):
 
         self.Center = Center
         self.Mat    = Mat
