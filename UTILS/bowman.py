@@ -23,6 +23,7 @@ class BowmanSprite:
         self.drag     = None
         self.conv     = None
         self.arrowlst = None
+        self.camera   = None
 
         self.bowman = Bowman()
     
@@ -31,6 +32,9 @@ class BowmanSprite:
 
     def set_drag( self , drag ):
         self.drag = drag
+
+    def set_camera( self , camera ):
+        self.camera = camera
 
     def set_arrowlst( self , arrowlst ):
         self.arrowlst = arrowlst

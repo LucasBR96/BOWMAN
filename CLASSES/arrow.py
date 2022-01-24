@@ -22,7 +22,7 @@ class Arrow:
         if not self.Flying: return
         self.Center += self.Speed*dt
 
-        print( self.Center )
+        # print( self.Center )
     
     def Accelerate( self , dt , g = 9.81 , k =.01 ):
         
@@ -48,4 +48,7 @@ class Arrow:
         return pos1 , pos2
     
     def Lock( self ):
-        self.Flying = not self.Flying
+        
+        p1 , p2 = self.GetEdges()
+        if min( p1[ 1 ] , p2[ 1 ] ) < 0:
+            self.Flying = False

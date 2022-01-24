@@ -4,13 +4,16 @@ from UTILS.bowman import BowmanSprite
 from UTILS.conv import Conv
 from UTILS.arrlst import ArrowList
 from UTILS.clock import Clock
+from UTILS.camera import camera
 
 import pygame
 from pygame.locals import *
 
 from numpy import sqrt , arctan, pi, rad2deg
 
-import time 
+import time
+kb = pygame.key
+ms = pygame.mouse 
 class Play:
 
     @staticmethod
@@ -23,15 +26,18 @@ class Play:
         Play.drag   = mouse_drag( window )
         Play.clock = Clock()
         Play.conv  = Conv()
+        Play.camera = camera()
 
         Play.arrlst = ArrowList( window )
         Play.arrlst.set_clock( Play.clock )
         Play.arrlst.set_conv( Play.conv )
+        Play.arrlst.set_camera( Play.camera )
 
         Play.left_bow = BowmanSprite( window )
         Play.left_bow.set_drag( Play.drag )
         Play.left_bow.set_conv( Play.conv )
         Play.left_bow.set_arrowlst( Play.arrlst )
+        Play.left_bow.set_camera( Play.camera )
         pass
 
     @staticmethod
@@ -48,11 +54,18 @@ class Play:
         Play.clock.tick()
         Play.left_bow.update()
         Play.arrlst.update()
+        
+        if ms.get_pressed()[ 0 ]:
+
+            x1 , x2 = ms.get_pos()
+            v1 , v2 = Play.conv.toVirt( x1 , x2 )
+
+            print( f'Pixel: {x1} {x2}')
+            print( f'Virtual: {v1} {v2}')
 
     @staticmethod
     def manage_inputs(  ):
         
-        kb = pygame.key
         if kb.get_pressed()[ K_ESCAPE ]:
             Play.running = False
             Play.next_screen = MENU

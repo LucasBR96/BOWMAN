@@ -39,23 +39,10 @@ class mouse_drag:
             d = MAX_DRAG_D
 
         try:
-            a = ( y1 >= y2 )
-            b = ( x1 >= x2 )
+            theta = arctan( ( y1 - y2 )/( x2 - x1 ) )
+            if ( x2 > x1 ):
+                theta += pi
 
-            if a and b:
-                r = ( y1 - y2 )/( x1 - x2 )
-            
-            elif a:
-                r = ( y1 - y2 )/( x2 - x1 )
-            
-            elif b:
-                r = ( y2 - y1 )/( x1 - x2 )
-            
-            else:
-                r = ( y2 - y1 )/( x1 - x2 )
-            
-            theta = arctan( r )
-            # theta = arctan( ( y1 - y2 )/( x2 - x1 ) )
         except ZeroDivisionError:
             theta = pi/2
 

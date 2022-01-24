@@ -30,18 +30,20 @@ BOW_MAN_DIST = 250
 WIND_SPEED   = 0
 MAX_WSP      = 100
 
-#----------------------------------------------------------
-# Conversao de distancias
-R = 54 #pixels por metro
-FLOOR_HEIGHT = 10
-CENTER = numpy.array( [ -66*R , 800 - FLOOR_HEIGHT ] )
-MAT = numpy.array( [ [ R , 0 ] , [ 0 , -R ] ] )
-
 #--------------------------------------------------------
 # Opcoes gerais
 SCREEN_SIZE = ( 1200 , 800 )
 WHITE       = ( 255 , 255 , 255 )
 BLACK       = ( 0 , 0 , 0 )
+
+#----------------------------------------------------------
+# Conversao de distancias
+PIXEL_BOWMAN_HEIGHT = 78
+R = PIXEL_BOWMAN_HEIGHT/VIRTUAL_BOWMAN_HEIGHT 
+FLOOR_HEIGHT = 10
+CENTER = numpy.array( [ SCREEN_SIZE[ 0 ]//2 - VIRTUAL_DEFAULT_X*R , SCREEN_SIZE[ 1 ] - FLOOR_HEIGHT  ] )
+MAT = numpy.array( [ [ R , 0 ] , [ 0 , -R ] ] )
+
 
 #-------------------------------------------------------
 # Menu
