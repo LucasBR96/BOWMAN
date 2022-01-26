@@ -23,6 +23,7 @@ class Play:
         Play.running = True
         Play.next_screen = None
 
+        Play.window = window
         Play.drag   = mouse_drag( window )
         Play.clock = Clock()
         Play.conv  = Conv()
@@ -82,27 +83,72 @@ class Play:
         bow = right_bow if right_bow.turn else left_bow
 
         cmra.focus_at( bow.bowman )
-        
-        
+
 
     @staticmethod
     def render_objects( window , **kwargs ):
 
         Play.drag.draw()
+        Play.arrlst.draw()
         Play.left_bow.draw()
         Play.right_bow.draw()
-        Play.arrlst.draw()
+
+        Play.draw_floor()
+        Play.draw_hp()
         pass
     
+    @staticmethod
+    def check_for_hit( ):
+
+        right_bow = Play.right_bow
+        left_bow  = Play.left_bow
+        target = right_bow if left_bow.turn else left_bow
+        Play.arrlst.check_for_hit( target )
+    
+    @staticmethod
+    def draw_floor():
+
+        cmr = Play.camera
+        focus = cmr.get_focus()
+
+        try:
+            _ , fy = Play.conv.fromVirt( focus[ 0 ] , focus[ 1 ] )
+
+            dy = fy - SCREEN_SIZE[ 1 ]/2
+            p1 = ( 0 ,SCREEN_SIZE[ 1 ] - FLOOR_HEIGHT - dy )
+            p2 = ( SCREEN_SIZE[ 0 ] ,SCREEN_SIZE[ 1 ] - FLOOR_HEIGHT - dy )
+
+        except TypeError:
+            p1 = ( 0 ,SCREEN_SIZE[ 1 ] - FLOOR_HEIGHT )
+            p2 = ( SCREEN_SIZE[ 0 ] , SCREEN_SIZE[ 1 ] - FLOOR_HEIGHT )
+
+        pygame.draw.line( Play.window , BLACK , p1 , p2 , width = 4 )  
+
+    @staticmethod
+    def draw_hp():
+
+        font = pygame.font.SysFont( FONT_TYPE , 16, bold = True )
+        left_hp = Play.left_bow.bowman.HP
+        right_hp = Play.right_bow.bowman.HP
+
+        box1 = font.render( "HP1 = {}".format( left_hp ) , False , BLACK )
+        h = box1.get_rect().height
+        Play.window.blit( box1 , ( 0 , SCREEN_SIZE[ 1 ]//2  + h ))
+
+        box2 = font.render( "HP2 = {}".format( right_hp ) , False , BLACK )
+        Play.window.blit( box2 , ( 0 , SCREEN_SIZE[ 1 ]//2 ))
+
     @staticmethod
     def update( ):
 
         Play.clock.tick()
         Play.set_focus()
+
         Play.right_bow.update()
         Play.left_bow.update()
         Play.arrlst.update()
         
+        Play.check_for_hit()
         if ms.get_pressed()[ 0 ]:
 
             x1 , x2 = ms.get_pos()

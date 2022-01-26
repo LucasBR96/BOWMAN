@@ -46,26 +46,11 @@ class BowmanSprite:
     def set_arrowlst( self , arrowlst ):
         self.arrowlst = arrowlst
 
+    
     def draw( self ):
 
-        img_name = self.get_correct_sprite( )
-        sprite = pygame.image.load( img_name )
-        if self.should_flip():
-            sprite = pygame.transform.flip( sprite , True , False )
-
-        box = sprite.get_rect()
-        sprite_x = self.position - box.width/2
-        sprite_y = SCREEN_SIZE[ 1 ] - box.height - FLOOR_HEIGHT
-
-        try:
-            focus = self.camera.get_focus()
-            focus = self.conv.fromVirt( focus[ 0 ] , focus[ 1 ] )
-            dx = focus[ 0 ] - SCREEN_SIZE[ 0 ]/2
-            dy = focus[ 1 ] - SCREEN_SIZE[ 1 ]/2
-        except TypeError:
-            dx , dy = 0 , 0 
-
-        self.window.blit( sprite , ( sprite_x - dx , sprite_y - dy  ) )
+        sprite , box = self.get_correct_sprite()
+        self.window.blit( sprite , box )
 
     def should_flip( self ):
 
@@ -94,9 +79,9 @@ class BowmanSprite:
 
         return ( v < 0 ) and ( abs( h ) < abs( v ) ) 
 
-    def get_correct_sprite( self ):
+    def get_correct_img( self ):
 
-        if self.drag.last_click is None:
+        if self.drag.last_click is None or not self.turn:
             return 'assets/bowman_sprites/Resting.png'
 
         _ , _ , d , _ = self.drag.get_drag_info()
@@ -105,6 +90,29 @@ class BowmanSprite:
         theta_idx = self.point_up()
 
         return 'assets/bowman_sprites/Pull_{}{}.png'.format( int( theta_idx ) , int( pull_idx ) )
+
+    def get_correct_sprite( self ):
+
+        img_name = self.get_correct_img( )
+        sprite = pygame.image.load( img_name )
+        if self.should_flip():
+            sprite = pygame.transform.flip( sprite , True , False )
+
+        box = sprite.get_rect()
+        sprite_x = self.position - box.width/2
+        sprite_y = SCREEN_SIZE[ 1 ] - box.height - FLOOR_HEIGHT
+
+        try:
+            focus = self.camera.get_focus()
+            focus = self.conv.fromVirt( focus[ 0 ] , focus[ 1 ] )
+            dx = focus[ 0 ] - SCREEN_SIZE[ 0 ]/2
+            dy = focus[ 1 ] - SCREEN_SIZE[ 1 ]/2
+        except TypeError:
+            dx , dy = 0 , 0
+
+        box = pygame.rect.Rect( sprite_x - dx , sprite_y - dy , box.width , box.height )
+
+        return sprite , box 
 
     def set_bow_params( self ):
 
