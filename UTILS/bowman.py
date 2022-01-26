@@ -1,3 +1,4 @@
+
 import numpy
 import functools
 from collections import namedtuple
@@ -18,14 +19,20 @@ class BowmanSprite:
         self.left_side = left_side
         self.window = window
 
-        self.position = SCREEN_SIZE[ 0 ]//2
+        if self.left_side:
+            self.position = SCREEN_SIZE[ 0 ]//2
+            self.bowman = Bowman()
+        else:
+            self.position =   SCREEN_SIZE[ 0 ]//2 + 250*R
+            self.bowman = Bowman( Position = numpy.array([ VIRTUAL_DEFAULT_X + 250 , 0 ]))
 
         self.drag     = None
         self.conv     = None
         self.arrowlst = None
         self.camera   = None
 
-        self.bowman = Bowman()
+        self.turn = left_side
+
     
     def set_conv( self, conv ):
         self.conv = conv
@@ -50,7 +57,15 @@ class BowmanSprite:
         sprite_x = self.position - box.width/2
         sprite_y = SCREEN_SIZE[ 1 ] - box.height - FLOOR_HEIGHT
 
-        self.window.blit( sprite , ( sprite_x , sprite_y ) )
+        try:
+            focus = self.camera.get_focus()
+            focus = self.conv.fromVirt( focus[ 0 ] , focus[ 1 ] )
+            dx = focus[ 0 ] - SCREEN_SIZE[ 0 ]/2
+            dy = focus[ 1 ] - SCREEN_SIZE[ 1 ]/2
+        except TypeError:
+            dx , dy = 0 , 0 
+
+        self.window.blit( sprite , ( sprite_x - dx , sprite_y - dy  ) )
 
     def should_flip( self ):
 
@@ -102,63 +117,19 @@ class BowmanSprite:
         self.arrowlst.add_arrow( Arr )
     
     def update( self ):
-        # pass
-        if self.drag.released():
-            self.loose()
-        elif self.drag.holding:
-            self.set_bow_params()
-
-    
-# class Bowman:
-
-#     def __init__( self , Position ):
-
-#         self.HP = MAX_HEALTH
-#         self.Stamina = MAX_STAMINA
-
-        # self.Bow         = Bow
-        # self.Inventory   = Inventory
-        # self.loadedArrow = list( Inventory.keys() )[ 0 ]
-
-        # self.Position = Position
-    
-    # def Draw( self , Pull , Theta ):
-
-    #     self.Bow.setTheta( Theta )
-    #     self.Bow.setPull( Pull )
-    
-    # def updateStamina( self , dt ):
         
-    #     x = self.Bow.Pull
-    #     if x != 0:
-    #         return self.getTired( dt )
-    #     return self.getRest( dt )
-    
-    # def getRest( self , dt ):
-    #     self.Stamina = MAX_STAMINA
-    #     return False
+        if self.turn:
+            if self.drag.released():
+                self.loose()
+            elif self.drag.holding:
+                self.set_bow_params()
 
-    # def getTired( self , dt ):
+        # try:
+        #     arr = self.arrowlst.lst[ -1 ]
+        #     if not arr.Flying:
+        #         self.camera.focus_at( self.bowman )
+        # except IndexError:
+        #     return
 
-    #     Bow = self.Bow
-    #     x = Bow.Pull
-    #     k = Bow.Power
-    #     d = Bow.WetDebuff
-    #     Force = x*k*d
-
-    #     self.Stamina -= Force*dt*STAMINA_DECAY
-    #     self.Stamina  = max( self.Stamina , 0 )
-    #     return self.Stamina == 0 
-    
-    # def Loose( self ) -> Arrow:
-
-    #     ArrowType = self.loadedArrow
-    #     Position  = numpy.array([ self.Position , BOW_HEIGHT ] )
-    #     newArrow  = self.Bow.Loose( ArrowType , Position )
-
-    #     self.Inventory[ ArrowType ] -= 1
-    #     self.Bow.setPull( 0 )
-
-    #     return newArrow
 
 

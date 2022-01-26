@@ -7,7 +7,7 @@ from UTILS.camera import camera
 import pygame
 from pygame.locals import *
 
-from constantes import BLACK
+from constantes import BLACK, SCREEN_SIZE
 
 class ArrowList:
 
@@ -19,6 +19,27 @@ class ArrowList:
         self.conv : Conv = None
         self.clock : Clock = None
         self.camera : camera = None
+
+        self.init_arrow_sprites()
+    
+    def init_arrow_sprites( self ):
+
+        self.arrow_sprites = []
+        img = pygame.image.load( "assets/arrow_sprites/arrow1.png" )
+        for i in range( 91 ):
+
+            if i == 0:
+                aux = img
+            else:
+                aux = pygame.transform.rotate( img , i )
+            rect = aux.get_rect()
+            self.arrow_sprites.append( ( aux , rect ) )
+    
+    def get_correct_sprite( self , x ):
+
+        m = int( numpy.floor( x ) )
+        return self.arrow_sprites[ m ]
+
     
     def set_conv( self, conv : Conv ):
         self.conv = conv
@@ -31,7 +52,7 @@ class ArrowList:
 
     def add_arrow( self , arr : Arrow ):
 
-        self.camera.focus_at( arr )
+        # self.camera.focus_at( arr )
         self.lst.append( arr )
     
     def move_arrow( self ):
@@ -45,39 +66,34 @@ class ArrowList:
     
     def draw( self ):
 
-        img = pygame.image.load( "assets/arrow_sprites/arrow1.png" )
+        focus = self.camera.get_focus()
+        if focus is None:
+            return
+            
+        focus = self.conv.fromVirt( focus[ 0 ] , focus[ 1 ] )
+        dx = focus[ 0 ] - SCREEN_SIZE[ 0 ]/2
+        dy = focus[ 1 ] - SCREEN_SIZE[ 1 ]/2
+
         for arrow in self.lst:
-
-            p1 , p2 = arrow.GetEdges()
-            # focus = self.camera.get_focus()
-
-            # p1 -= focus
-            p1 = self.conv.fromVirt( p1[0] , p1[1] )
-
-            # p2 -= focus
-            p2 = self.conv.fromVirt( p2[0] , p2[1] )
-
-            pygame.draw.line( self.window , BLACK , p1 , p2 )
 
             p = arrow.Center
             p = self.conv.fromVirt( p[0] , p[ 1 ])
-
-            #centralizando o sprite com o centro da flecha -------------------
-            w = img.get_rect().width/2
-            h = img.get_rect().height/2
-            p -= numpy.array( [ w , h ] )
+            p = ( p[0] - dx , p[1] - dy )
 
             #Alinhado a flecha com a velocidade -----------------------------
-            ( x1 , y1 ) , ( x2 , y2 ) = p1 , p2
-            try:
-                theta = numpy.arctan( ( y1 - y2 )/( x1 - x2 ) )
-                if ( x2 > x1 ):
-                    theta += numpy.pi
-            except ZeroDivisionError:
-                theta = numpy.pi/2
+            vx , vy = arrow.Speed
+            theta = numpy.rad2deg( numpy.arctan( vy/vx ) )
+            img , rect = self.get_correct_sprite( abs( theta ) )
+            a = ( vx < 0 )
+            b = ( vy < 0 )
+            img = pygame.transform.flip( img , a , b )
 
-            img = pygame.transform.rotate( img , numpy.rad2deg( theta ) )
+            #centralizando o sprite com o centro da flecha -------------------
+            w = rect.width/2
+            h = rect.height/2
+            p -= numpy.array( [ w , h ] )
 
+            pygame.draw.rect( self.window , BLACK , ( p[0] , p[ 1 ] , 2*w , 2*h ) , width = 1  )
             self.window.blit( img , p )
             
     

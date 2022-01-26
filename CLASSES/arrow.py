@@ -24,7 +24,7 @@ class Arrow:
 
         # print( self.Center )
     
-    def Accelerate( self , dt , g = 9.81 , k =.01 ):
+    def Accelerate( self , dt , g = 9.81 , k = 0 ):
         
         #sem velocidade do vento por enquanto
 

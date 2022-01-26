@@ -7,7 +7,7 @@ from constantes import *
 
 class Bow:
 
-    def __init__( self , Power = 300 , MaxPull = MAX_PULL, WetDebuff = WET_DEBUFF ):
+    def __init__( self , Power = 10**3 , MaxPull = MAX_PULL, WetDebuff = WET_DEBUFF ):
 
         self.Power     : float = Power
         self.Theta     : float = 0
